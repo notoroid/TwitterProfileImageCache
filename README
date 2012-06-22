@@ -1,0 +1,13 @@
+プロジェクト名: TwitterProfileImageCache
+作成者: 能登 要
+
+概要:
+iOS5 SDKを用いたTwitter のプロフィールイメージをテンポラリフォルダにキャッシュとして格納するサンプルプログラム。
+
+参考:
+Twitter アカウントの取得処理 は getAccountTwitter は以下のサイトを参考にしました。
+
+■ iOS 5への Twitterアカウントの登録とアプリからのアクセス - Debian GNU/Linux 3.1 on PowerMac G4
+http://d.hatena.ne.jp/paraches/20111109
+
+

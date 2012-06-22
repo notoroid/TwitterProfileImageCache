@@ -1,0 +1,331 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		872699351588975800319EB2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699341588975800319EB2 /* UIKit.framework */; };
+		872699371588975800319EB2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699361588975800319EB2 /* Foundation.framework */; };
+		872699391588975800319EB2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699381588975800319EB2 /* CoreGraphics.framework */; };
+		8726993B1588975800319EB2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8726993A1588975800319EB2 /* CoreData.framework */; };
+		872699411588975800319EB2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8726993F1588975800319EB2 /* InfoPlist.strings */; };
+		872699431588975800319EB2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 872699421588975800319EB2 /* main.m */; };
+		872699471588975800319EB2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 872699461588975800319EB2 /* AppDelegate.m */; };
+		8726994A1588975800319EB2 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 872699481588975800319EB2 /* MainStoryboard.storyboard */; };
+		8726994D1588975800319EB2 /* ProfileImageCache.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8726994B1588975800319EB2 /* ProfileImageCache.xcdatamodeld */; };
+		872699501588975800319EB2 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8726994F1588975800319EB2 /* MainViewController.m */; };
+		872699531588975800319EB2 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 872699521588975800319EB2 /* FlipsideViewController.m */; };
+		872699621588999200319EB2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699611588999200319EB2 /* Accounts.framework */; };
+		872699651588999A00319EB2 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699641588999A00319EB2 /* Twitter.framework */; };
+		8726996815889F8500319EB2 /* profileImageDummy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8726996615889F8500319EB2 /* profileImageDummy.png */; };
+		8726996915889F8500319EB2 /* profileImageDummy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8726996715889F8500319EB2 /* profileImageDummy@2x.png */; };
+		8783848615943D44003DC454 /* ProfileImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 8783848515943D44003DC454 /* ProfileImageStore.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		872699301588975800319EB2 /* TwitterProfileImageCache.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterProfileImageCache.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		872699341588975800319EB2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		872699361588975800319EB2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		872699381588975800319EB2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8726993A1588975800319EB2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		8726993E1588975800319EB2 /* TwitterProfileImageCache-Info.plist */ = {isa = PBXFileReference; path = "TwitterProfileImageCache-Info.plist"; sourceTree = "<group>"; };
+		872699401588975800319EB2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		872699421588975800319EB2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		872699441588975800319EB2 /* TwitterProfileImageCache-Prefix.pch */ = {isa = PBXFileReference; path = "TwitterProfileImageCache-Prefix.pch"; sourceTree = "<group>"; };
+		872699451588975800319EB2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		872699461588975800319EB2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		872699491588975800319EB2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		8726994C1588975800319EB2 /* ProfileImageCache.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ProfileImageCache.xcdatamodel; sourceTree = "<group>"; };
+		8726994E1588975800319EB2 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		8726994F1588975800319EB2 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		872699511588975800319EB2 /* FlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
+		872699521588975800319EB2 /* FlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
+		872699611588999200319EB2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		872699641588999A00319EB2 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		8726996615889F8500319EB2 /* profileImageDummy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profileImageDummy.png; sourceTree = "<group>"; };
+		8726996715889F8500319EB2 /* profileImageDummy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profileImageDummy@2x.png"; sourceTree = "<group>"; };
+		8783848415943D44003DC454 /* ProfileImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileImageStore.h; sourceTree = "<group>"; };
+		8783848515943D44003DC454 /* ProfileImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileImageStore.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8726992D1588975800319EB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				872699651588999A00319EB2 /* Twitter.framework in Frameworks */,
+				872699621588999200319EB2 /* Accounts.framework in Frameworks */,
+				872699351588975800319EB2 /* UIKit.framework in Frameworks */,
+				872699371588975800319EB2 /* Foundation.framework in Frameworks */,
+				872699391588975800319EB2 /* CoreGraphics.framework in Frameworks */,
+				8726993B1588975800319EB2 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		872699251588975700319EB2 = {
+			isa = PBXGroup;
+			children = (
+				872699641588999A00319EB2 /* Twitter.framework */,
+				872699611588999200319EB2 /* Accounts.framework */,
+				8726993C1588975800319EB2 /* ProfileImageCache */,
+				872699331588975800319EB2 /* Frameworks */,
+				872699311588975800319EB2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		872699311588975800319EB2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				872699301588975800319EB2 /* TwitterProfileImageCache.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		872699331588975800319EB2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				872699341588975800319EB2 /* UIKit.framework */,
+				872699361588975800319EB2 /* Foundation.framework */,
+				872699381588975800319EB2 /* CoreGraphics.framework */,
+				8726993A1588975800319EB2 /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8726993C1588975800319EB2 /* ProfileImageCache */ = {
+			isa = PBXGroup;
+			children = (
+				8726996615889F8500319EB2 /* profileImageDummy.png */,
+				8726996715889F8500319EB2 /* profileImageDummy@2x.png */,
+				872699451588975800319EB2 /* AppDelegate.h */,
+				872699461588975800319EB2 /* AppDelegate.m */,
+				872699481588975800319EB2 /* MainStoryboard.storyboard */,
+				8726994E1588975800319EB2 /* MainViewController.h */,
+				8726994F1588975800319EB2 /* MainViewController.m */,
+				872699511588975800319EB2 /* FlipsideViewController.h */,
+				872699521588975800319EB2 /* FlipsideViewController.m */,
+				8726994B1588975800319EB2 /* ProfileImageCache.xcdatamodeld */,
+				8783848415943D44003DC454 /* ProfileImageStore.h */,
+				8783848515943D44003DC454 /* ProfileImageStore.m */,
+				8726993D1588975800319EB2 /* Supporting Files */,
+			);
+			path = ProfileImageCache;
+			sourceTree = "<group>";
+		};
+		8726993D1588975800319EB2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8726993E1588975800319EB2 /* TwitterProfileImageCache-Info.plist */,
+				8726993F1588975800319EB2 /* InfoPlist.strings */,
+				872699421588975800319EB2 /* main.m */,
+				872699441588975800319EB2 /* TwitterProfileImageCache-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8726992F1588975800319EB2 /* TwitterProfileImageCache */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 872699561588975800319EB2 /* Build configuration list for PBXNativeTarget "TwitterProfileImageCache" */;
+			buildPhases = (
+				8726992C1588975800319EB2 /* Sources */,
+				8726992D1588975800319EB2 /* Frameworks */,
+				8726992E1588975800319EB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TwitterProfileImageCache;
+			productName = ProfileImageCache;
+			productReference = 872699301588975800319EB2 /* TwitterProfileImageCache.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		872699271588975700319EB2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 8726992A1588975700319EB2 /* Build configuration list for PBXProject "TwitterProfileImageCache" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 872699251588975700319EB2;
+			productRefGroup = 872699311588975800319EB2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8726992F1588975800319EB2 /* TwitterProfileImageCache */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8726992E1588975800319EB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				872699411588975800319EB2 /* InfoPlist.strings in Resources */,
+				8726994A1588975800319EB2 /* MainStoryboard.storyboard in Resources */,
+				8726996815889F8500319EB2 /* profileImageDummy.png in Resources */,
+				8726996915889F8500319EB2 /* profileImageDummy@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8726992C1588975800319EB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				872699431588975800319EB2 /* main.m in Sources */,
+				872699471588975800319EB2 /* AppDelegate.m in Sources */,
+				8726994D1588975800319EB2 /* ProfileImageCache.xcdatamodeld in Sources */,
+				872699501588975800319EB2 /* MainViewController.m in Sources */,
+				872699531588975800319EB2 /* FlipsideViewController.m in Sources */,
+				8783848615943D44003DC454 /* ProfileImageStore.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8726993F1588975800319EB2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				872699401588975800319EB2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		872699481588975800319EB2 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				872699491588975800319EB2 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		872699541588975800319EB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		872699551588975800319EB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		872699571588975800319EB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ProfileImageCache/TwitterProfileImageCache-Prefix.pch";
+				INFOPLIST_FILE = "ProfileImageCache/TwitterProfileImageCache-Info.plist";
+				PRODUCT_NAME = TwitterProfileImageCache;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		872699581588975800319EB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ProfileImageCache/TwitterProfileImageCache-Prefix.pch";
+				INFOPLIST_FILE = "ProfileImageCache/TwitterProfileImageCache-Info.plist";
+				PRODUCT_NAME = TwitterProfileImageCache;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8726992A1588975700319EB2 /* Build configuration list for PBXProject "TwitterProfileImageCache" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				872699541588975800319EB2 /* Debug */,
+				872699551588975800319EB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		872699561588975800319EB2 /* Build configuration list for PBXNativeTarget "TwitterProfileImageCache" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				872699571588975800319EB2 /* Debug */,
+				872699581588975800319EB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8726994B1588975800319EB2 /* ProfileImageCache.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8726994C1588975800319EB2 /* ProfileImageCache.xcdatamodel */,
+			);
+			currentVersion = 8726994C1588975800319EB2 /* ProfileImageCache.xcdatamodel */;
+			path = ProfileImageCache.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 872699271588975700319EB2 /* Project object */;
+}
