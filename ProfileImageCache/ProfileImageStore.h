@@ -22,10 +22,10 @@ typedef void (^profileimagestore_block_t)(UIImage* profileImage,ProfileImageUpda
 @property (nonatomic) BOOL reachableNetwork;
 
 // Profile Image Management by File base.
-- (void) requestProfileImageWithIdentifier:(NSString*)identifier block:(profileimagestore_block_t)block accountStore:(ACAccountStore*)accountStore;
+- (void) requestProfileImageWithUsername:(NSString*)username block:(profileimagestore_block_t)block;
 
 // Profile Image Management by CoreData base.
-- (void) requestProfileImageWithIdentifier:(NSString*)identifier block:(profileimagestore_block_t)block managedObjectContext:(NSManagedObjectContext*)managedObjectContext accountStore:(ACAccountStore*)accountStore;
+- (void) requestProfileImageWithUsername:(NSString*)username block:(profileimagestore_block_t)block managedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 + (void) sweepProfileImageWithTimeInterval:(NSTimeInterval)timeInterval managedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 
 

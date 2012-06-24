@@ -13,14 +13,14 @@
 @synthesize updateInterval=_updateInterval;
 @synthesize reachableNetwork=_reachableNetwork;
 
-- (void) requestProfileImageWithIdentifier:(NSString*)identifier block:(profileimagestore_block_t)block accountStore:(ACAccountStore*)accountStore
+- (void) requestProfileImageWithUsername:(NSString*)username block:(profileimagestore_block_t)block
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        ACAccount* account = [accountStore accountWithIdentifier:identifier];
+//        ACAccount* account = [accountStore accountWithIdentifier:identifier];
         
         NSString *tempDir = NSTemporaryDirectory();
-        NSString *abstProfileImagePath = [tempDir stringByAppendingPathComponent:[NSString stringWithFormat:@"profile_%@.png",account.identifier] ];
+        NSString *abstProfileImagePath = [tempDir stringByAppendingPathComponent:[NSString stringWithFormat:@"profile_%@.png",username] ];
         
         NSFileManager* fileManager = [[NSFileManager alloc] init];
         
@@ -62,7 +62,7 @@
 //            [postRequest setAccount:account];
 //            NSURLRequest* request = [postRequest signedURLRequest];
             
-            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.twitter.com/1/users/profile_image?screen_name=%@&size=%@",account.username,@"bigger"]]];
+            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.twitter.com/1/users/profile_image?screen_name=%@&size=%@",username,@"bigger"]]];
             
             @autoreleasepool {
                 NSError* error = nil;
@@ -169,7 +169,7 @@
 }
 
 
-- (void) requestProfileImageWithIdentifier:(NSString*)identifier block:(profileimagestore_block_t)block managedObjectContext:(NSManagedObjectContext*)managedObjectContext accountStore:(ACAccountStore*)accountStore
+- (void) requestProfileImageWithUsername:(NSString*)username block:(profileimagestore_block_t)block managedObjectContext:(NSManagedObjectContext*)managedObjectContext
 {
     // ここでProfileImage の問い合わせ
     // 表示情報を取得する
@@ -178,7 +178,7 @@
     [fetchRequest setEntity:entity];
     
     // 検索条件を指定
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"identifier = %@", identifier ];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"username = %@", username ];
     [fetchRequest setPredicate: predicate ];		
     
     // 最新の要素を取得する
@@ -190,7 +190,7 @@
     NSArray* profileImages = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
     for( NSManagedObject* profileImage in profileImages ){
-        NSLog(@"identifier=%@: timeStamp=%@", identifier,[profileImage valueForKey:@"timeStamp"] );
+        NSLog(@"identifier=%@: timeStamp=%@", username,[profileImage valueForKey:@"timeStamp"] );
         
         
     }
@@ -203,7 +203,6 @@
         NSNumber* step = (NSNumber*)([profileImage valueForKey:@"step"]);
         // パスとタイムスタンプを取得する
         
-        ACAccount* account = [accountStore accountWithIdentifier:identifier];
         NSFileManager* fileManager = [[NSFileManager alloc] init];
         
         BOOL mustLoadImage = YES;
@@ -236,7 +235,7 @@
             // パスを新規作成
             NSString *tempDir = NSTemporaryDirectory();
             
-            NSString*profileImagePath = [NSString stringWithFormat:@"profile_%@(%d).png",account.identifier];
+            NSString*profileImagePath = [NSString stringWithFormat:@"profile_%@(%d).png",username,currentStep];
             NSString* abstProfileImagePath = [tempDir stringByAppendingPathComponent:profileImagePath ];
 
 //            TWRequest *postRequest = [[TWRequest alloc] initWithURL:[NSURL URLWithString:@"http://api.twitter.com/1/users/profile_image"]
@@ -249,7 +248,7 @@
 //            [postRequest setAccount:account];
 //            NSURLRequest* request = [postRequest signedURLRequest];
             
-            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.twitter.com/1/users/profile_image?screen_name=%@&size=%@",account.username,@"bigger"]]];
+            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.twitter.com/1/users/profile_image?screen_name=%@&size=%@",username,@"bigger"]]];
             
             @autoreleasepool {
                 NSError* error = nil;
@@ -307,8 +306,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         // 値を追加
                         NSManagedObject* updateTarget = [NSEntityDescription insertNewObjectForEntityForName:@"ProfileImage" inManagedObjectContext:managedObjectContext];
-                        [updateTarget setValue:account.identifier forKey:@"identifier"];
-                        [updateTarget setValue:account.username forKey:@"username"];
+                        [updateTarget setValue:username forKey:@"username"];
                         [updateTarget setValue:[NSNumber numberWithInt:currentStep] forKey:@"step"];
                         [updateTarget setValue:[NSDate date] forKey:@"timeStamp"];
                         [updateTarget setValue:profileImagePath forKey:@"path"];

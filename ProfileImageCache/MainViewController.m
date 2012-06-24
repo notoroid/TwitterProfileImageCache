@@ -120,22 +120,18 @@ static NSInteger s_accountCellID = 0;
 - (void) configureCell:(UITableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
 {
     NSString* twitter_username = [[_identifiers objectAtIndex:indexPath.row] objectForKey:@"username"];
-    NSString* twitter_identifier = [[_identifiers objectAtIndex:indexPath.row] objectForKey:@"identifier"];
     
     cell.textLabel.text = twitter_username;
     s_accountCellID+=2;
     NSInteger currentID = cell.tag = s_accountCellID;
-    
-    AppDelegate* appDelegate = (AppDelegate*)([UIApplication sharedApplication].delegate);
-    ACAccountStore* accountStore = appDelegate.accountStore;
     
     cell.imageView.image = [UIImage imageNamed:@"profileImageDummy.png"];
     
     ProfileImageStore* profileImageStore = [[ProfileImageStore alloc] init];
     profileImageStore.updateInterval = 30.0f;
     
-//    [profileImageStore requestProfileImageWithIdentifier:twitter_identifier block:^(UIImage *profileImage,ProfileImageUpdateState profileImageUpdateState) {
-    [profileImageStore requestProfileImageWithIdentifier:twitter_identifier block:^(UIImage *profileImage,ProfileImageUpdateState profileImageUpdateState) {
+    [profileImageStore requestProfileImageWithUsername:twitter_username block:^(UIImage *profileImage,ProfileImageUpdateState profileImageUpdateState) {
+//    [profileImageStore requestProfileImageWithUsername:twitter_username block:^(UIImage *profileImage,ProfileImageUpdateState profileImageUpdateState) {
         switch (profileImageUpdateState) {
             case ProfileImageUpdateStateExistImage:
                 if( /*self.navigationController.topViewController == self &&*/ currentID == cell.tag ){
@@ -153,9 +149,7 @@ static NSInteger s_accountCellID = 0;
                 break;
         }
         
-    } accountStore:accountStore];
-    
-    
+    }];
     
 }
 
