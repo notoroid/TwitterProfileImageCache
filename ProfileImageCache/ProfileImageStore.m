@@ -17,8 +17,6 @@
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-//        ACAccount* account = [accountStore accountWithIdentifier:identifier];
-        
         NSString *tempDir = NSTemporaryDirectory();
         NSString *abstProfileImagePath = [tempDir stringByAppendingPathComponent:[NSString stringWithFormat:@"profile_%@.png",username] ];
         
@@ -29,10 +27,6 @@
             UIImage* imageProfileImage = [UIImage imageWithData:data];
             dispatch_async(dispatch_get_main_queue(), ^{
                 block(imageProfileImage,ProfileImageUpdateStateExistImage);
-//                if( /*self.navigationController.topViewController == self &&*/ currentID == cell.tag ){
-//                    cell.imageView.image = profileImage;
-//                    cell.tag = cell.tag + 1;
-//                }
             });
         }
         
@@ -52,16 +46,6 @@
         
         if( mustLoadImage )
         {
-//            TWRequest *postRequest = [[TWRequest alloc] initWithURL:[NSURL URLWithString:@"http://api.twitter.com/1/users/profile_image"]
-//                                                         parameters:[NSDictionary dictionaryWithObjectsAndKeys:account.username,@"screen_name"
-//                                                                     ,@"bigger",@"size"
-//                                                                     ,nil]
-//                                                      requestMethod:TWRequestMethodGET];
-//            
-//            // Set the account used to post the tweet.
-//            [postRequest setAccount:account];
-//            NSURLRequest* request = [postRequest signedURLRequest];
-            
             NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.twitter.com/1/users/profile_image?screen_name=%@&size=%@",username,@"bigger"]]];
             
             @autoreleasepool {
@@ -101,18 +85,12 @@
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
                             block(imageNormalScale,ProfileImageUpdateStateNewImage);
-    //                        if( /*self.navigationController.topViewController == self &&*/ currentID == cell.tag || currentID + 1 == cell.tag ){
-    //                            cell.imageView.image = imageNormalScale;
-    //                        }
                         });
                         
                         [dataNormalScale writeToFile:abstProfileImagePath atomically:YES];
                     }else{
                         dispatch_async(dispatch_get_main_queue(), ^{
                             block(imageProfileImage,ProfileImageUpdateStateNewImage);
-    //                        if( /*self.navigationController.topViewController == self &&*/ currentID == cell.tag || currentID + 1 == cell.tag ){
-    //                            cell.imageView.image = imageProfileImage;
-    //                        }
                         });
                         
                         if( [fileManager fileExistsAtPath:abstProfileImagePath] ){
@@ -124,9 +102,10 @@
                 }else{
                     NSLog(@"ここでタイムアウト処理を行う");
                 }
-            }            
+            }    
         }
-        
+       
+//        [fileManager release];
     });
 }
 
@@ -144,6 +123,9 @@
     
     NSError* error = nil;
     NSArray* profileImages = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+//    [fetchRequest release];
+    
     for( NSManagedObject* profileImage in profileImages){
         NSString* path = [[profileImage valueForKey:@"path"] description];
         if( path != nil && [path length] > 0 ){
@@ -188,6 +170,10 @@
     
     NSError* error = nil;
     NSArray* profileImages = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+//    [sortDescriptor release];
+//    [sortDescriptors release];
+//    [fetchRequest release];
     
     for( NSManagedObject* profileImage in profileImages ){
         NSLog(@"identifier=%@: timeStamp=%@", username,[profileImage valueForKey:@"timeStamp"] );
@@ -238,16 +224,6 @@
             NSString*profileImagePath = [NSString stringWithFormat:@"profile_%@(%d).png",username,currentStep];
             NSString* abstProfileImagePath = [tempDir stringByAppendingPathComponent:profileImagePath ];
 
-//            TWRequest *postRequest = [[TWRequest alloc] initWithURL:[NSURL URLWithString:@"http://api.twitter.com/1/users/profile_image"]
-//                                                         parameters:[NSDictionary dictionaryWithObjectsAndKeys:account.username,@"screen_name"
-//                                                                     ,@"bigger",@"size"
-//                                                                     ,nil]
-//                                                      requestMethod:TWRequestMethodGET];
-//            
-//            // Set the account used to post the tweet.
-//            [postRequest setAccount:account];
-//            NSURLRequest* request = [postRequest signedURLRequest];
-            
             NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.twitter.com/1/users/profile_image?screen_name=%@&size=%@",username,@"bigger"]]];
             
             @autoreleasepool {
@@ -284,20 +260,12 @@
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
                             block( imageNormalScale , ProfileImageUpdateStateNewImage );
-                            //                        if( /*self.navigationController.topViewController == self &&*/ currentID == cell.tag || currentID == cell.tag -1){
-                            //                            cell.imageView.image = imageNormalScale;
-                            //                            cell.tag = currentID + 1;
-                            //                        }
                         });
                         
                         [dataNormalScale writeToFile:abstProfileImagePath atomically:YES];
                     }else{
                         dispatch_async(dispatch_get_main_queue(), ^{
                             block( imageProfileImage , ProfileImageUpdateStateNewImage );
-                            //                        if( /*self.navigationController.topViewController == self &&*/ currentID == cell.tag || currentID == cell.tag -1){
-                            //                            cell.imageView.image = imageProfileImage;
-                            //                            cell.tag = currentID + 1;
-                            //                        }
                         });
                         
                         [data writeToFile:abstProfileImagePath atomically:YES];
@@ -326,7 +294,8 @@
             
             }
         }
-        
+       
+//        [fileManager release];
     });
     
 }
