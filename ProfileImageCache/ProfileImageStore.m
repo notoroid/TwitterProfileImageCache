@@ -13,6 +13,15 @@
 @synthesize updateInterval=_updateInterval;
 @synthesize reachableNetwork=_reachableNetwork;
 
+- (id)init
+{
+    if( (self = [super init]) != nil ){
+        _updateInterval = 30.0f * 60.0f;
+        _reachableNetwork = YES;
+    }
+    return self;
+}
+
 - (void) requestProfileImageWithUsername:(NSString*)username block:(profileimagestore_block_t)block
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
