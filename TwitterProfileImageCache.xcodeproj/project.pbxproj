@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		871A40191779356000F83DEF /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871A40171778FC4300F83DEF /* Social.framework */; };
+		871A401C1779595F00F83DEF /* TwitterCountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 871A401B1779595F00F83DEF /* TwitterCountCell.m */; };
+		871A401E17795C9600F83DEF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 871A401D17795C9600F83DEF /* Default-568h@2x.png */; };
 		872699351588975800319EB2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699341588975800319EB2 /* UIKit.framework */; };
 		872699371588975800319EB2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699361588975800319EB2 /* Foundation.framework */; };
 		872699391588975800319EB2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699381588975800319EB2 /* CoreGraphics.framework */; };
@@ -19,22 +22,25 @@
 		872699501588975800319EB2 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8726994F1588975800319EB2 /* MainViewController.m */; };
 		872699531588975800319EB2 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 872699521588975800319EB2 /* FlipsideViewController.m */; };
 		872699621588999200319EB2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699611588999200319EB2 /* Accounts.framework */; };
-		872699651588999A00319EB2 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 872699641588999A00319EB2 /* Twitter.framework */; };
 		8726996815889F8500319EB2 /* profileImageDummy.png in Resources */ = {isa = PBXBuildFile; fileRef = 8726996615889F8500319EB2 /* profileImageDummy.png */; };
 		8726996915889F8500319EB2 /* profileImageDummy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8726996715889F8500319EB2 /* profileImageDummy@2x.png */; };
 		8783848615943D44003DC454 /* ProfileImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 8783848515943D44003DC454 /* ProfileImageStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		871A40171778FC4300F83DEF /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		871A401A1779595F00F83DEF /* TwitterCountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterCountCell.h; sourceTree = "<group>"; };
+		871A401B1779595F00F83DEF /* TwitterCountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterCountCell.m; sourceTree = "<group>"; };
+		871A401D17795C9600F83DEF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		872699301588975800319EB2 /* TwitterProfileImageCache.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterProfileImageCache.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		872699341588975800319EB2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		872699361588975800319EB2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		872699381588975800319EB2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8726993A1588975800319EB2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		8726993E1588975800319EB2 /* TwitterProfileImageCache-Info.plist */ = {isa = PBXFileReference; path = "TwitterProfileImageCache-Info.plist"; sourceTree = "<group>"; };
+		8726993E1588975800319EB2 /* TwitterProfileImageCache-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TwitterProfileImageCache-Info.plist"; sourceTree = "<group>"; };
 		872699401588975800319EB2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		872699421588975800319EB2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		872699441588975800319EB2 /* TwitterProfileImageCache-Prefix.pch */ = {isa = PBXFileReference; path = "TwitterProfileImageCache-Prefix.pch"; sourceTree = "<group>"; };
+		872699441588975800319EB2 /* TwitterProfileImageCache-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TwitterProfileImageCache-Prefix.pch"; sourceTree = "<group>"; };
 		872699451588975800319EB2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		872699461588975800319EB2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		872699491588975800319EB2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
@@ -56,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				872699651588999A00319EB2 /* Twitter.framework in Frameworks */,
+				871A40191779356000F83DEF /* Social.framework in Frameworks */,
 				872699621588999200319EB2 /* Accounts.framework in Frameworks */,
 				872699351588975800319EB2 /* UIKit.framework in Frameworks */,
 				872699371588975800319EB2 /* Foundation.framework in Frameworks */,
@@ -71,8 +77,6 @@
 		872699251588975700319EB2 = {
 			isa = PBXGroup;
 			children = (
-				872699641588999A00319EB2 /* Twitter.framework */,
-				872699611588999200319EB2 /* Accounts.framework */,
 				8726993C1588975800319EB2 /* ProfileImageCache */,
 				872699331588975800319EB2 /* Frameworks */,
 				872699311588975800319EB2 /* Products */,
@@ -90,6 +94,9 @@
 		872699331588975800319EB2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				871A40171778FC4300F83DEF /* Social.framework */,
+				872699641588999A00319EB2 /* Twitter.framework */,
+				872699611588999200319EB2 /* Accounts.framework */,
 				872699341588975800319EB2 /* UIKit.framework */,
 				872699361588975800319EB2 /* Foundation.framework */,
 				872699381588975800319EB2 /* CoreGraphics.framework */,
@@ -102,12 +109,15 @@
 			isa = PBXGroup;
 			children = (
 				8726996615889F8500319EB2 /* profileImageDummy.png */,
+				871A401D17795C9600F83DEF /* Default-568h@2x.png */,
 				8726996715889F8500319EB2 /* profileImageDummy@2x.png */,
 				872699451588975800319EB2 /* AppDelegate.h */,
 				872699461588975800319EB2 /* AppDelegate.m */,
 				872699481588975800319EB2 /* MainStoryboard.storyboard */,
 				8726994E1588975800319EB2 /* MainViewController.h */,
 				8726994F1588975800319EB2 /* MainViewController.m */,
+				871A401A1779595F00F83DEF /* TwitterCountCell.h */,
+				871A401B1779595F00F83DEF /* TwitterCountCell.m */,
 				872699511588975800319EB2 /* FlipsideViewController.h */,
 				872699521588975800319EB2 /* FlipsideViewController.m */,
 				8726994B1588975800319EB2 /* ProfileImageCache.xcdatamodeld */,
@@ -183,6 +193,7 @@
 				8726994A1588975800319EB2 /* MainStoryboard.storyboard in Resources */,
 				8726996815889F8500319EB2 /* profileImageDummy.png in Resources */,
 				8726996915889F8500319EB2 /* profileImageDummy@2x.png in Resources */,
+				871A401E17795C9600F83DEF /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +210,7 @@
 				872699501588975800319EB2 /* MainViewController.m in Sources */,
 				872699531588975800319EB2 /* FlipsideViewController.m in Sources */,
 				8783848615943D44003DC454 /* ProfileImageStore.m in Sources */,
+				871A401C1779595F00F83DEF /* TwitterCountCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +287,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ProfileImageCache/TwitterProfileImageCache-Prefix.pch";
 				INFOPLIST_FILE = "ProfileImageCache/TwitterProfileImageCache-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = TwitterProfileImageCache;
 				WRAPPER_EXTENSION = app;
 			};
@@ -286,6 +299,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ProfileImageCache/TwitterProfileImageCache-Prefix.pch";
 				INFOPLIST_FILE = "ProfileImageCache/TwitterProfileImageCache-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = TwitterProfileImageCache;
 				WRAPPER_EXTENSION = app;
 			};

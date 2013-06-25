@@ -47,7 +47,9 @@ static NSInteger s_accountCellID = 0;
 
 - (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -71,28 +73,20 @@ static NSInteger s_accountCellID = 0;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         // Request access from the user to use their Twitter accounts.
-        [accountStore requestAccessToAccountsWithType:accountType withCompletionHandler:^(BOOL granted, NSError *error) {
+        [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
             if(granted) {
                 // Get the list of Twitter accounts.
                 __weak NSArray* accountsArray = [accountStore accountsWithAccountType:accountType];
                 
                 for (ACAccount* account in accountsArray ) {
-                    NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                [account.identifier copy],@"identifier"
-                                                ,[account.username copy],@"username"
-                                                ,[account.accountDescription copy],@"accountDescription"
-                                                ,nil];
-                    
-                    NSLog(@"dic=%@",dic);
+                    NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:@{
+                                                 @"identifier":[account.identifier copy]
+                                                ,@"username":[account.username copy]
+                                                ,@"accountDescription":[account.accountDescription copy]
+                                                }];
                     [_identifiers addObject:dic];
                 }
-
-                /*
-                 for (NSObject* account in accountsArray ) {
-                 NSLog(@"account=%@", account );
-                 }
-                 _userID =  ((ACAccount*)[accountsArray objectAtIndex:0]).identifier;
-                 */
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];
                 });
@@ -101,7 +95,8 @@ static NSInteger s_accountCellID = 0;
                 
                 [alertView show];
             }
-        }];       
+        }];
+         
     });
 }
 
@@ -119,9 +114,14 @@ static NSInteger s_accountCellID = 0;
 
 - (void) configureCell:(UITableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
 {
-    NSString* twitter_username = [[_identifiers objectAtIndex:indexPath.row] objectForKey:@"username"];
+    AppDelegate* appDelegate = (AppDelegate*)([UIApplication sharedApplication].delegate);
     
-    cell.textLabel.text = twitter_username;
+	// Create an account store object.
+	ACAccountStore *accountStore = appDelegate.accountStore;
+    ACAccount* account = [accountStore accountWithIdentifier:[_identifiers objectAtIndex:indexPath.row][@"identifier"] ];
+    
+    
+    cell.textLabel.text = account.username;
     s_accountCellID+=2;
     NSInteger currentID = cell.tag = s_accountCellID;
     
@@ -130,8 +130,8 @@ static NSInteger s_accountCellID = 0;
     ProfileImageStore* profileImageStore = [[ProfileImageStore alloc] init];
     profileImageStore.updateInterval = 30.0f;
     
-    [profileImageStore requestProfileImageWithUsername:twitter_username block:^(UIImage *profileImage,ProfileImageUpdateState profileImageUpdateState) {
-//    [profileImageStore requestProfileImageWithUsername:twitter_username block:^(UIImage *profileImage,ProfileImageUpdateState profileImageUpdateState) {
+//    [profileImageStore requestProfileImageWithAccount:account block:^(UIImage *profileImage, ProfileImageUpdateState profileImageUpdateState) {
+    [profileImageStore requestProfileImageWithAccount:account managedObjectContext:appDelegate.managedObjectContext block:^(UIImage *profileImage, ProfileImageUpdateState profileImageUpdateState) {
         switch (profileImageUpdateState) {
             case ProfileImageUpdateStateExistImage:
                 if( /*self.navigationController.topViewController == self &&*/ currentID == cell.tag ){
@@ -150,6 +150,7 @@ static NSInteger s_accountCellID = 0;
         }
         
     }];
+    
     
 }
 

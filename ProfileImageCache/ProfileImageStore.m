@@ -22,12 +22,12 @@
     return self;
 }
 
-- (void) requestProfileImageWithUsername:(NSString*)username block:(profileimagestore_block_t)block
+- (void) requestProfileImageWithAccount:(ACAccount*)account block:(profileimagestore_block_t)block
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
         NSString *tempDir = NSTemporaryDirectory();
-        NSString *abstProfileImagePath = [tempDir stringByAppendingPathComponent:[NSString stringWithFormat:@"profile_%@.png",username] ];
+        NSString *abstProfileImagePath = [tempDir stringByAppendingPathComponent:[NSString stringWithFormat:@"profile_%@.png",account.username] ];
         
         NSFileManager* fileManager = [[NSFileManager alloc] init];
         
@@ -55,66 +55,88 @@
         
         if( mustLoadImage )
         {
-            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.twitter.com/1/users/profile_image?screen_name=%@&size=%@",username,@"bigger"]]];
-            
-            @autoreleasepool {
-                NSError* error = nil;
-                NSURLResponse* response = nil;
-                
-                NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                if( data != nil ){
-                    // 標準サイズを作成する
-                    UIImage* imageProfileImage = [UIImage imageWithData:data];            
-                    
-                    if( [UIScreen mainScreen].scale == 1.0f ){
-                        CGColorSpaceRef  imageColorSpace = CGColorSpaceCreateDeviceRGB();
-                        
-                        CGAffineTransform transform = CGAffineTransformIdentity;
-                        
-                        const double width = CGImageGetWidth([imageProfileImage CGImage]);
-                        const double height = CGImageGetHeight([imageProfileImage CGImage]);
-                        CGRect bounds = CGRectMake(0, 0, ceil(width *.5f), ceil(height *.5f) );
-                        CGContextRef context = CGBitmapContextCreate (NULL,bounds.size.width,bounds.size.height,8, bounds.size.width * 4, imageColorSpace, kCGImageAlphaPremultipliedFirst );
-                        transform = CGAffineTransformScale(transform, .5f, .5f);
-                        
-                        CGContextConcatCTM(context, transform);
-                        CGContextDrawImage(context, CGRectMake(0, 0, width, height), [imageProfileImage CGImage] );
-                        CGImageRef cgImage = CGBitmapContextCreateImage(context);
-                        
-                        UIImage* imageNormalScale = [UIImage imageWithCGImage:cgImage];
-                        NSData* dataNormalScale = UIImagePNGRepresentation(imageNormalScale);
-                        
-                        if( [fileManager fileExistsAtPath:abstProfileImagePath] ){
-                            NSError* error = nil;
-                            [fileManager removeItemAtPath:abstProfileImagePath error:&error];
-                        }
-                        CGImageRelease(cgImage);
-                        CGContextRelease(context);
-                        CGColorSpaceRelease(imageColorSpace);
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            block(imageNormalScale,ProfileImageUpdateStateNewImage);
-                        });
-                        
-                        [dataNormalScale writeToFile:abstProfileImagePath atomically:YES];
-                    }else{
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            block(imageProfileImage,ProfileImageUpdateStateNewImage);
-                        });
-                        
-                        if( [fileManager fileExistsAtPath:abstProfileImagePath] ){
-                            NSError* error = nil;
-                            [fileManager removeItemAtPath:abstProfileImagePath error:&error];
-                        }
-                        [data writeToFile:abstProfileImagePath atomically:YES];
-                    }
-                }else{
-                    NSLog(@"ここでタイムアウト処理を行う");
+            NSURL* URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/users/show.json?screen_name=%@",account.username] ];
+            SLRequest* request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:URL
+                parameters:@{
                 }
-            }    
+            ];
+            request.account = account;
+
+            // リクエストの呼び出し
+            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                if( error == nil )
+                {
+                    NSError* error = nil;
+                    NSObject* obj = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
+                    NSDictionary* root = [obj isKindOfClass:[NSDictionary class]] ? (NSDictionary*)obj : nil;
+                    
+                    NSString* imagePath = root[@"profile_image_url"];
+                    imagePath = [imagePath stringByReplacingOccurrencesOfString:@"_normal.png" withString:@"_bigger.png"];
+                    imagePath = [imagePath stringByReplacingOccurrencesOfString:@"_normal.png" withString:@"_bigger.jpg"];
+                    imagePath = [imagePath stringByReplacingOccurrencesOfString:@"_normal.png" withString:@"_bigger.jpeg"];
+                    
+                    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:imagePath]];
+                    @autoreleasepool {
+                        NSError* error = nil;
+                        NSURLResponse* response = nil;
+
+                        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                        if( data != nil ){
+                            // 標準サイズを作成する
+                            UIImage* imageProfileImage = [UIImage imageWithData:data];
+
+                            if( [UIScreen mainScreen].scale == 1.0f ){
+                                CGColorSpaceRef  imageColorSpace = CGColorSpaceCreateDeviceRGB();
+
+                                CGAffineTransform transform = CGAffineTransformIdentity;
+
+                                const double width = CGImageGetWidth([imageProfileImage CGImage]);
+                                const double height = CGImageGetHeight([imageProfileImage CGImage]);
+                                CGRect bounds = CGRectMake(0, 0, ceil(width *.5f), ceil(height *.5f) );
+                                CGContextRef context = CGBitmapContextCreate (NULL,bounds.size.width,bounds.size.height,8, bounds.size.width * 4, imageColorSpace, kCGImageAlphaPremultipliedFirst );
+                                transform = CGAffineTransformScale(transform, .5f, .5f);
+
+                                CGContextConcatCTM(context, transform);
+                                CGContextDrawImage(context, CGRectMake(0, 0, width, height), [imageProfileImage CGImage] );
+                                CGImageRef cgImage = CGBitmapContextCreateImage(context);
+
+                                UIImage* imageNormalScale = [UIImage imageWithCGImage:cgImage];
+                                NSData* dataNormalScale = UIImagePNGRepresentation(imageNormalScale);
+
+                                if( [fileManager fileExistsAtPath:abstProfileImagePath] ){
+                                    NSError* error = nil;
+                                    [fileManager removeItemAtPath:abstProfileImagePath error:&error];
+                                }
+                                CGImageRelease(cgImage);
+                                CGContextRelease(context);
+                                CGColorSpaceRelease(imageColorSpace);
+
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    block(imageNormalScale,ProfileImageUpdateStateNewImage);
+                                });
+
+                                [dataNormalScale writeToFile:abstProfileImagePath atomically:YES];
+                            }else{
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    block(imageProfileImage,ProfileImageUpdateStateNewImage);
+                                });
+                                
+                                if( [fileManager fileExistsAtPath:abstProfileImagePath] ){
+                                    NSError* error = nil;
+                                    [fileManager removeItemAtPath:abstProfileImagePath error:&error];
+                                }
+                                [data writeToFile:abstProfileImagePath atomically:YES];
+                            }
+                        }else{
+                            NSLog(@"ここでタイムアウト処理を行う");
+                        }
+                    }
+                    
+                }else{
+                    NSLog(@"error %@, %@", error, [error userInfo]);
+                }
+            }];
         }
-       
-//        [fileManager release];
     });
 }
 
@@ -156,11 +178,14 @@
             abort();
         }
     }
-    
 }
 
+- (void) requestProfileImageWithAccount:(ACAccount*)account block:(profileimagestore_block_t)block managedObjectContext:(NSManagedObjectContext*)managedObjectContext
+{
+    [self requestProfileImageWithAccount:account managedObjectContext:managedObjectContext block:block];
+}
 
-- (void) requestProfileImageWithUsername:(NSString*)username block:(profileimagestore_block_t)block managedObjectContext:(NSManagedObjectContext*)managedObjectContext
+- (void) requestProfileImageWithAccount:(ACAccount*)account managedObjectContext:(NSManagedObjectContext*)managedObjectContext block:(profileimagestore_block_t)block 
 {
     // ここでProfileImage の問い合わせ
     // 表示情報を取得する
@@ -169,7 +194,7 @@
     [fetchRequest setEntity:entity];
     
     // 検索条件を指定
-    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"username = %@", username ];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat: @"username = %@", account.username ];
     [fetchRequest setPredicate: predicate ];		
     
     // 最新の要素を取得する
@@ -180,14 +205,8 @@
     NSError* error = nil;
     NSArray* profileImages = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-//    [sortDescriptor release];
-//    [sortDescriptors release];
-//    [fetchRequest release];
-    
     for( NSManagedObject* profileImage in profileImages ){
-        NSLog(@"identifier=%@: timeStamp=%@", username,[profileImage valueForKey:@"timeStamp"] );
-        
-        
+        NSLog(@"identifier=%@: timeStamp=%@", account.username,[profileImage valueForKey:@"timeStamp"] );
     }
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -227,84 +246,106 @@
             NSInteger currentStep = [step intValue];
             currentStep++;
             
-            // パスを新規作成
-            NSString *tempDir = NSTemporaryDirectory();
+            NSURL* URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.twitter.com/1.1/users/show.json?screen_name=%@",account.username] ];
+            SLRequest* request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:URL
+                                                       parameters:@{
+                                  }
+                                  ];
+            request.account = account;
             
-            NSString*profileImagePath = [NSString stringWithFormat:@"profile_%@(%d).png",username,currentStep];
-            NSString* abstProfileImagePath = [tempDir stringByAppendingPathComponent:profileImagePath ];
+            // リクエストの呼び出し
+            [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                if( error == nil )
+                {
+                    // パスを新規作成
+                    NSString *tempDir = NSTemporaryDirectory();
+                    
+                    NSString*profileImagePath = [NSString stringWithFormat:@"profile_%@(%d).png",account.username,currentStep];
+                    NSString* abstProfileImagePath = [tempDir stringByAppendingPathComponent:profileImagePath ];
 
-            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.twitter.com/1/users/profile_image?screen_name=%@&size=%@",username,@"bigger"]]];
-            
-            @autoreleasepool {
-                NSError* error = nil;
-                NSURLResponse* response = nil;
-                
-                NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                if( data != nil ){
-                    // 標準サイズを作成する
-                    UIImage* imageProfileImage = [UIImage imageWithData:data];            
+                    NSError* error = nil;
+                    NSObject* obj = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
+                    NSDictionary* root = [obj isKindOfClass:[NSDictionary class]] ? (NSDictionary*)obj : nil;
                     
-                    if( [UIScreen mainScreen].scale == 1.0f ){
-                        
-                        CGColorSpaceRef  imageColorSpace = CGColorSpaceCreateDeviceRGB();
-                        
-                        CGAffineTransform transform = CGAffineTransformIdentity;
-                        
-                        const double width = CGImageGetWidth([imageProfileImage CGImage]);
-                        const double height = CGImageGetHeight([imageProfileImage CGImage]);
-                        CGRect bounds = CGRectMake(0, 0, ceil(width *.5f), ceil(height *.5f) );
-                        CGContextRef context = CGBitmapContextCreate (NULL,bounds.size.width,bounds.size.height,8, bounds.size.width * 4, imageColorSpace, kCGImageAlphaPremultipliedFirst );
-                        transform = CGAffineTransformScale(transform, .5f, .5f);
-                        
-                        CGContextConcatCTM(context, transform);
-                        CGContextDrawImage(context, CGRectMake(0, 0, width, height), [imageProfileImage CGImage] );
-                        CGImageRef cgImage = CGBitmapContextCreateImage(context);
-                        
-                        UIImage* imageNormalScale = [UIImage imageWithCGImage:cgImage];
-                        NSData* dataNormalScale = UIImagePNGRepresentation(imageNormalScale);
-                        
-                        CGImageRelease(cgImage);
-                        CGContextRelease(context);
-                        CGColorSpaceRelease(imageColorSpace);
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            block( imageNormalScale , ProfileImageUpdateStateNewImage );
-                        });
-                        
-                        [dataNormalScale writeToFile:abstProfileImagePath atomically:YES];
-                    }else{
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            block( imageProfileImage , ProfileImageUpdateStateNewImage );
-                        });
-                        
-                        [data writeToFile:abstProfileImagePath atomically:YES];
-                    }
+                    NSString* imagePath = root[@"profile_image_url"];
+                    imagePath = [imagePath stringByReplacingOccurrencesOfString:@"_normal.png" withString:@"_bigger.png"];
+                    imagePath = [imagePath stringByReplacingOccurrencesOfString:@"_normal.png" withString:@"_bigger.jpg"];
+                    imagePath = [imagePath stringByReplacingOccurrencesOfString:@"_normal.png" withString:@"_bigger.jpeg"];
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        // 値を追加
-                        NSManagedObject* updateTarget = [NSEntityDescription insertNewObjectForEntityForName:@"ProfileImage" inManagedObjectContext:managedObjectContext];
-                        [updateTarget setValue:username forKey:@"username"];
-                        [updateTarget setValue:[NSNumber numberWithInt:currentStep] forKey:@"step"];
-                        [updateTarget setValue:[NSDate date] forKey:@"timeStamp"];
-                        [updateTarget setValue:profileImagePath forKey:@"path"];
+                    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:imagePath]];
+
+                    @autoreleasepool {
+                        NSError* error = nil;
+                        NSURLResponse* response = nil;
                         
-                        if( [managedObjectContext hasChanges] ){
-                            NSError* error = nil;
-                            if( [managedObjectContext save:&error] != YES ){
-                                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                                abort();
+                        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                        if( data != nil ){
+                            // 標準サイズを作成する
+                            UIImage* imageProfileImage = [UIImage imageWithData:data];            
+                            
+                            if( [UIScreen mainScreen].scale == 1.0f ){
+                                
+                                CGColorSpaceRef  imageColorSpace = CGColorSpaceCreateDeviceRGB();
+                                
+                                CGAffineTransform transform = CGAffineTransformIdentity;
+                                
+                                const double width = CGImageGetWidth([imageProfileImage CGImage]);
+                                const double height = CGImageGetHeight([imageProfileImage CGImage]);
+                                CGRect bounds = CGRectMake(0, 0, ceil(width *.5f), ceil(height *.5f) );
+                                CGContextRef context = CGBitmapContextCreate (NULL,bounds.size.width,bounds.size.height,8, bounds.size.width * 4, imageColorSpace, kCGImageAlphaPremultipliedFirst );
+                                transform = CGAffineTransformScale(transform, .5f, .5f);
+                                
+                                CGContextConcatCTM(context, transform);
+                                CGContextDrawImage(context, CGRectMake(0, 0, width, height), [imageProfileImage CGImage] );
+                                CGImageRef cgImage = CGBitmapContextCreateImage(context);
+                                
+                                UIImage* imageNormalScale = [UIImage imageWithCGImage:cgImage];
+                                NSData* dataNormalScale = UIImagePNGRepresentation(imageNormalScale);
+                                
+                                CGImageRelease(cgImage);
+                                CGContextRelease(context);
+                                CGColorSpaceRelease(imageColorSpace);
+                                
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    block( imageNormalScale , ProfileImageUpdateStateNewImage );
+                                });
+                                
+                                [dataNormalScale writeToFile:abstProfileImagePath atomically:YES];
+                            }else{
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    block( imageProfileImage , ProfileImageUpdateStateNewImage );
+                                });
+                                
+                                [data writeToFile:abstProfileImagePath atomically:YES];
                             }
+                            
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                // 値を追加
+                                NSManagedObject* updateTarget = [NSEntityDescription insertNewObjectForEntityForName:@"ProfileImage" inManagedObjectContext:managedObjectContext];
+                                [updateTarget setValue:account.username forKey:@"username"];
+                                [updateTarget setValue:[NSNumber numberWithInt:currentStep] forKey:@"step"];
+                                [updateTarget setValue:[NSDate date] forKey:@"timeStamp"];
+                                [updateTarget setValue:profileImagePath forKey:@"path"];
+                                
+                                if( [managedObjectContext hasChanges] ){
+                                    NSError* error = nil;
+                                    if( [managedObjectContext save:&error] != YES ){
+                                        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                        abort();
+                                    }
+                                }
+                                
+                            });
+                        }else{
+                            NSLog(@"ここにタイムアウト処理");
                         }
-                        
-                    });
+                    }
                 }else{
-                    NSLog(@"ここにタイムアウト処理");
+                    NSLog(@"error %@, %@", error, [error userInfo]);
                 }
+            }];
             
-            }
         }
-       
-//        [fileManager release];
     });
     
 }

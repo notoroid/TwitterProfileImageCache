@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum tagProfileImageUpdateState
+typedef NS_ENUM(NSInteger,ProfileImageUpdateState)
 {
     ProfileImageUpdateStateFailure
     ,ProfileImageUpdateStateExistImage
     ,ProfileImageUpdateStateNewImage
-}ProfileImageUpdateState;
+};
+
+@class ACAccount;
 
 typedef void (^profileimagestore_block_t)(UIImage* profileImage,ProfileImageUpdateState profileImageUpdateState);
 
@@ -22,11 +24,14 @@ typedef void (^profileimagestore_block_t)(UIImage* profileImage,ProfileImageUpda
 @property (nonatomic) BOOL reachableNetwork;
 
 // Profile Image Management by File base.
-- (void) requestProfileImageWithUsername:(NSString*)username block:(profileimagestore_block_t)block;
+- (void) requestProfileImageWithAccount:(ACAccount*)account block:(profileimagestore_block_t)block;
 
 // Profile Image Management by CoreData base.
-- (void) requestProfileImageWithUsername:(NSString*)username block:(profileimagestore_block_t)block managedObjectContext:(NSManagedObjectContext*)managedObjectContext;
+- (void) requestProfileImageWithAccount:(ACAccount*)account managedObjectContext:(NSManagedObjectContext*)managedObjectContext block:(profileimagestore_block_t)block;
 + (void) sweepProfileImageWithTimeInterval:(NSTimeInterval)timeInterval managedObjectContext:(NSManagedObjectContext*)managedObjectContext;
 
+// deprecated methods 
+
+- (void) requestProfileImageWithAccount:(ACAccount*)account block:(profileimagestore_block_t)block managedObjectContext:(NSManagedObjectContext*)managedObjectContext __attribute__((deprecated));
 
 @end
